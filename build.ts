@@ -50,8 +50,8 @@ function runCommand(cmd: string): void {
         shell: true,
     });
 
-    if (result.error) {
-        stdout.write(styleText("red", result.stderr || result.stdout));
+    if (result.status != 0) {
+        stdout.write("\n" + styleText("red", result.stderr || result.stdout));
         exit(1);
     }
 }
@@ -179,7 +179,7 @@ function compileWasm(): void {
             "./third_party/imgui/backends/imgui_impl_wgpu.cpp",
             "./third_party/dear_bindings/dcimgui.cpp",
             "./third_party/dear_bindings/dcimgui_internal.cpp",
-            "./third_party/dear_bindings/dcimgui_impl_opengl3.cpp",
+            "./src/fixes/dcimgui_impl_opengl3.cpp", // Small compilation fix for the webgl backend.
             "./src/fixes/dcimgui_impl_wgpu.cpp", // Small compilation fix for the wgpu backend.
             "-I./third_party/imgui/",
             "-I./third_party/imgui/backends",
