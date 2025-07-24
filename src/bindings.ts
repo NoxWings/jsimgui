@@ -57,7 +57,7 @@ export const functionBindings: Record<string, FunctionBinding> = {
     ImGuiIO_SetKeyEventNativeData: { exclude: true },
     ImFontAtlas_AddFontFromMemoryCompressedTTF: { exclude: true },
     ImFontAtlas_AddFontFromMemoryCompressedBase85TTF: { exclude: true },
-    ImGui_DockSpace: { exclude: true },
+    ImGui_DockSpace: ImGui_DockSpace(),
     ImGui_SetNextWindowClass: { exclude: true },
     ImGui_GetMainViewport: { exclude: true },
     ImGui_GetWindowViewport: { exclude: true },
@@ -482,4 +482,21 @@ function ImGui_PlotHistogram() {
             ].join(""),
         },
     };
+}
+
+function ImGui_DockSpace() {
+    return {
+        override: {
+            typescript: [
+                "    DockSpace(dockSpaceId: ImGuiID, size: ImVec2 = new ImVec2(0, 0), flags: ImGuiDockNodeFlags = 0): ImGuiID { return Mod.export.ImGui_DockSpace(dockSpaceId, size?._ptr, flags); },\n",
+                "\n",
+            ].join(""),
+            cplusplus: [
+                'bind_func("ImGui_DockSpace", [](ImGuiID dockspace_id, ImVec2 size, ImGuiDockNodeFlags flags){\n',
+                "    return ImGui_DockSpace(dockspace_id, size, flags, nullptr);\n",
+                "}, allow_ptr());\n",
+                "\n",
+            ].join(""),
+        }
+    }
 }

@@ -3617,6 +3617,9 @@ export const ImGui = Object.freeze({
     SetTabItemClosed(tab_or_docked_window_label) {
         return Mod.export.ImGui_SetTabItemClosed(tab_or_docked_window_label);
     },
+    DockSpace(dockSpaceId, size = new ImVec2(0, 0), flags = 0) {
+        return Mod.export.ImGui_DockSpace(dockSpaceId, size?._ptr, flags);
+    },
     /** is current window docked into another window? */
     IsWindowDocked() {
         return Mod.export.ImGui_IsWindowDocked();

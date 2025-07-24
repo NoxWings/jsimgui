@@ -1619,6 +1619,10 @@ bind_func("ImGui_SetTabItemClosed", [](std::string tab_or_docked_window_label){
     return ImGui_SetTabItemClosed(tab_or_docked_window_label.c_str());
 }, allow_ptr());
 
+bind_func("ImGui_DockSpace", [](ImGuiID dockspace_id, ImVec2 size, ImGuiDockNodeFlags flags){
+    return ImGui_DockSpace(dockspace_id, size, flags, nullptr);
+}, allow_ptr());
+
 bind_func("ImGui_IsWindowDocked", [](){
     return ImGui_IsWindowDocked();
 });

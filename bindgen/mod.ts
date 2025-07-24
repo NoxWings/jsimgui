@@ -2929,6 +2929,8 @@ export const ImGui = Object.freeze({
     /** notify TabBar or Docking system of a closed tab\/window ahead (useful to reduce visual flicker on reorderable tab bars). For tab-bar: call after BeginTabBar() and before Tab submissions. Otherwise call with a window name. */
     SetTabItemClosed(tab_or_docked_window_label: string): void { return Mod.export.ImGui_SetTabItemClosed(tab_or_docked_window_label); },
 
+    DockSpace(dockSpaceId: ImGuiID, size: ImVec2 = new ImVec2(0, 0), flags: ImGuiDockNodeFlags = 0): ImGuiID { return Mod.export.ImGui_DockSpace(dockSpaceId, size?._ptr, flags); },
+
     /** is current window docked into another window? */
     IsWindowDocked(): boolean { return Mod.export.ImGui_IsWindowDocked(); },
 
