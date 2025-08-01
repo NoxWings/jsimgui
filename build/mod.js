@@ -41,12 +41,16 @@ export const Mod = {
         return this._export;
     },
 };
+const finalizer = new FinalizationRegistry((ptr) => {
+    ptr?.delete();
+});
 /** A class that wraps a reference to an ImGui struct. */
 class StructBinding {
     /** The reference to the underlying C++ struct. */
     _ptr;
     constructor(name) {
         this._ptr = new Mod.export[name]();
+        finalizer.register(this, this._ptr);
     }
     /** Wrap a new C++ struct into a JS wrapper */
     static wrap(ptr) {
@@ -4354,5 +4358,12 @@ export const ImGuiImplWeb = {
                 reject(error);
             };
         });
+    },
+    GetMemoryInfo() {
+        return {
+            heap: Mod.export.get_wasm_heap_info(),
+            mall: Mod.export.get_wasm_mall_info(),
+            stack: Mod.export.get_wasm_stack_info(),
+        };
     },
 };

@@ -2551,5 +2551,30 @@ export declare const ImGuiImplWeb: {
     LoadImageWebGL(canvas: HTMLCanvasElement, image: HTMLImageElement): Promise<ImTextureID>;
     /** Load an image to be used on a WebGPU canvas. Returns the texture id. */
     LoadImageWebGPU(device: GPUDevice, image: HTMLImageElement): Promise<ImTextureID>;
+    GetMemoryInfo(): {
+        heap: {
+            size: number;
+            max: number;
+            sbrk_ptr: number;
+        };
+        mall: {
+            arena: number;
+            ordblks: number;
+            smblks: number;
+            hblks: number;
+            hblkhd: number;
+            usmblks: number;
+            fsmblks: number;
+            uordblks: number;
+            fordblks: number;
+            keepcost: number;
+        };
+        stack: {
+            base: number;
+            end: number;
+            current: number;
+            free: number;
+        };
+    };
 };
 export {};

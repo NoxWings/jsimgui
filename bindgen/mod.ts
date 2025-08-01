@@ -50,6 +50,10 @@ export const Mod = {
     },
 };
 
+const finalizer = new FinalizationRegistry((ptr: any) => {
+    ptr?.delete();
+});
+
 /** A class that wraps a reference to an ImGui struct. */
 class StructBinding {
     /** The reference to the underlying C++ struct. */
@@ -57,6 +61,7 @@ class StructBinding {
 
     constructor(name: string) {
         this._ptr = new Mod.export[name]();
+        finalizer.register(this, this._ptr);
     }
 
     /** Wrap a new C++ struct into a JS wrapper */
@@ -3677,5 +3682,37 @@ export const ImGuiImplWeb = {
                 reject(error);
             };
         });
+    },
+
+    GetMemoryInfo(): {
+        heap: {
+            size: number;
+            max: number;
+            sbrk_ptr: number;
+        };
+        mall: {
+            arena: number;
+            ordblks: number;
+            smblks: number;
+            hblks: number;
+            hblkhd: number;
+            usmblks: number;
+            fsmblks: number;
+            uordblks: number;
+            fordblks: number;
+            keepcost: number;
+        };
+        stack: {
+            base: number;
+            end: number;
+            current: number;
+            free: number;
+        };
+    } {
+        return {
+            heap: Mod.export.get_wasm_heap_info(),
+            mall: Mod.export.get_wasm_mall_info(),
+            stack: Mod.export.get_wasm_stack_info(),
+        };
     },
 };

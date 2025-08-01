@@ -50,6 +50,10 @@ export const Mod = {
     },
 };
 
+const finalizer = new FinalizationRegistry((ptr: any) => {
+    ptr?.delete();
+});
+
 /** A class that wraps a reference to an ImGui struct. */
 class StructBinding {
     /** The reference to the underlying C++ struct. */
@@ -57,6 +61,7 @@ class StructBinding {
 
     constructor(name: string) {
         this._ptr = new Mod.export[name]();
+        finalizer.register(this, this._ptr);
     }
 
     /** Wrap a new C++ struct into a JS wrapper */
